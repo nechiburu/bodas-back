@@ -6,11 +6,17 @@ const productosSchema = new Schema({
         type: String,
         trim: true
     },
+    descripcion : {
+        type: String
+    },
     precio: {
         type: Number
     },
     imagen: {
-        type: String
-    }
+        type: String,
+        require:true,
+    },
+
+    
 });
  module.exports = mongoose.model('Productos',productosSchema)

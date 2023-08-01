@@ -25,7 +25,8 @@ const configuracionMulter = {
 }
 
 // pasar la configuración y el campo
-const upload = multer(configuracionMulter).single('imagen');
+const upload = multer(configuracionMulter).array('imagen',3);
+
 
 // Sube un archivo 
 exports.subirArchivo = (req, res, next) => {
@@ -36,6 +37,23 @@ exports.subirArchivo = (req, res, next) => {
         return next();
     })
 }
+exports.subirArchivo2 = (req, res, next) => {
+    upload(req, res, function(error) {
+        if(error) {
+            res.json({mensaje: error})
+        }
+        return next();
+    })
+}
+exports.subirArchivo3 = (req, res, next) => {
+    upload(req, res, function(error) {
+        if(error) {
+            res.json({mensaje: error})
+        }
+        return next();
+    })
+}
+
 
 
 // agrega nuevos productos
@@ -43,9 +61,9 @@ exports.nuevoProducto = async (req, res, next) => {
     const producto = new Productos(req.body);
 
     try {
-        if(req.file.filename) {
-            producto.imagen = req.file.filename
-        }
+        req.files.forEach((file) => {
+            console.log('Archivo subido:', file.filename);
+          });
         await producto.save();
         res.json({mensaje : 'Se agrego un nuevo producto'})
     } catch (error) {

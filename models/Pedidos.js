@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 const pedidosSchema = new Schema({
     cliente: {
         type: Schema.ObjectId, 
-        ref: 'Clientes'
+        ref: 'usuario'
     }, 
     pedido: [{
         producto: {
             type: Schema.ObjectId,
-            ref: 'Productos'
+            ref: 'products'
         }, 
         cantidad: Number
     }],
