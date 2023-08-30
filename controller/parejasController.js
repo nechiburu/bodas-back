@@ -22,7 +22,7 @@ exports.subirArchivos = upload.fields([
 ]);
 
 exports.parejas = async (req, res) => {
-    const { slug, title, date, location } = req.body;
+    const { slug, title, date, location, desc } = req.body;
 
     try {
         const newPareja = new Parejas({
@@ -30,6 +30,7 @@ exports.parejas = async (req, res) => {
             title,
             date,
             location,
+            desc,
         });
 
         if (req.files) {

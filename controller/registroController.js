@@ -1,12 +1,12 @@
 const bcrypt = require('bcrypt')
-const Usuario = require('../models/usuario')
+const User = require('../models/user')
 
 exports.register = async (req, res) =>{
     const {email, full_name, password, confirm_password} = req.body;
 
-    Usuario.findOne({email}).then((usuario) =>{
-        if(usuario){
-            return res.json({mensaje: "Ya existe un usuario con ese correo"});
+    User.findOne({email}).then((user) =>{
+        if(user){
+            return res.json({mensaje: "Ya existe un user con ese correo"});
         } else if(!email || !full_name || !password || !confirm_password){
             return res.json({mensaje:"Completar todos los campos"});
          } else if(password !== confirm_password){
@@ -15,17 +15,17 @@ exports.register = async (req, res) =>{
             bcrypt.hash(password, 10, (error, contraseñaHasheada) =>{
                 if(error) res.json({error})
                 else{
-                    const nuevoUsuario = new Usuario({
+                    const nuevoUser = new User({
                         email,
                         full_name,
                         password: contraseñaHasheada,
                         confirm_password: contraseñaHasheada,
                     });
 
-                    nuevoUsuario
+                    nuevoUser
                         .save()
-                        .then((usuario) =>{
-                            res.json({mensaje: 'Usuario creado correctamente', usuario})
+                        .then((user) =>{
+                            res.json({mensaje: 'User creado correctamente', user})
                         })
                         .catch((error) => console.error(error));
                 }

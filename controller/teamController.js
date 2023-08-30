@@ -1,3 +1,5 @@
+// teamController.js
+
 const Team = require('../models/team');
 const multer = require('multer');
 const shortid = require('shortid');
@@ -17,11 +19,11 @@ const upload = multer({ storage: storage });
 exports.subirArchivos = upload.single('tImg');
 
 exports.team = async (req, res) => {
-    const { slug, name, title } = req.body;
+    const { name, title } = req.body; // Eliminamos el campo slug ya que lo obtendremos de la pareja seleccionada
 
     try {
         const newTeam = new Team({
-            slug,
+            slug: req.body.slug, // Utilizamos el slug de la pareja seleccionada que se envía en el cuerpo de la solicitud
             name,
             title,
         });
@@ -32,10 +34,10 @@ exports.team = async (req, res) => {
 
         await newTeam.save();
 
-        res.json({ mensaje: 'Se agregó una nueva pareja' });
+        res.json({ mensaje: 'Se agregó un nuevo equipo' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ mensaje: 'Error al agregar la pareja' });
+        res.status(500).json({ mensaje: 'Error al agregar el equipo' });
     }
 };
 

@@ -1,18 +1,18 @@
 const bcrypt = require("bcrypt")
-const Usuario = require("../models/usuario")
+const User = require("../models/user")
 const jwt = require('jsonwebtoken')
 
 exports.login = async (req, res) =>{
     const {email, password} = req.body;
 
-    Usuario.findOne({email}).then((usuario) =>{
-        if(!usuario){
-            return res.json({mensaje: 'Usuario no encontrado'});
+    User.findOne({email}).then((user) =>{
+        if(!user){
+            return res.json({mensaje: 'User no encontrado'});
         }
 
-        bcrypt.compare(password, usuario.password).then((esCorrecta) =>{
+        bcrypt.compare(password, user.password).then((esCorrecta) =>{
             if(esCorrecta){
-                const {id, full_name} = usuario;
+                const {id, full_name} = user;
 
                 const data ={
                     id,
@@ -24,8 +24,8 @@ exports.login = async (req, res) =>{
                 })
 
                 res.json({
-                    mensaje: "Usuario logeado correctamente",
-                    usuario: {
+                    mensaje: "User logeado correctamente",
+                    user: {
                         id,
                         full_name,
                         token,
