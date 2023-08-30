@@ -15,6 +15,8 @@ const getUserById = require('../controller/getUserById')
 
 const noviosController = require('../controller/noviosController');
 
+const emailController = require('../controller/emailController')
+
 module.exports = function() {
 
     // Agrega nuevos clientes via POST
@@ -107,6 +109,8 @@ module.exports = function() {
     // router.get('/user', verifyToken, getUserById.getUserById);
     router.post('/register', registroController.register);
     router.post('/login', loginController.login);
+
+    router.post('/send-email', emailController.sendEmail);
 
     return router;
 }
