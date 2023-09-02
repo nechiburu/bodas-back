@@ -27,6 +27,9 @@ const productsSchema = new Schema({
     },
     location: {
         type: String
+    },
+    desc: {
+        type: String
     }
 
     
