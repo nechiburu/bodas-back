@@ -13,7 +13,7 @@ const sendEmail = async (req, res) => {
     });
 
     const mailOptions = {
-        from: 'nicoechiburu@gmail.com',
+        from: 'nechiburu@viajestravelero.com',
         to: 'nicoechiburu@gmail.com',
         subject: 'Nueva cotizacion de boda',
         text: `Nueva solicitud:
