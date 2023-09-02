@@ -9,8 +9,6 @@ const fs = require('fs');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-console.log('MONGODB_URI:', process.env.MONGODB_URI);
-
 // cors permite que te conectes a otro servidor
 
 const cors = require('cors');
@@ -19,6 +17,10 @@ const parejas = require('./models/parejas');
 const team = require('./models/team');
 
 //conectar mongoose
+// mongoose.connect(process.env.MONGODB_URI,
+//   console.log('Db on')
+// )
+
 mongoose.connect(process.env.MONGODB_URI,
   console.log('Db on')
 )
@@ -34,7 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // Rutas de la app
-app.use('/api', routes());
+app.use('/', routes());
 
 // carpeta publica
 app.use(express.static('uploads'));
@@ -209,4 +211,42 @@ app.get('/products/:id/barcode', (req, res) => {
       console.error('Error al obtener los datos del producto:', err);
       res.status(500).send('Error al obtener los datos del producto');
     });
+});
+
+
+app.post('/send-email', (req, res) => {
+  const { name, email, telefono, destino, boda, presupuesto, guest } = req.body;
+
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail', // Cambia esto según tu proveedor de correo
+    auth: {
+      user: 'krisnaspiral@gmail.com', // Cambia esto a tu dirección de correo
+      pass: 'wmingyhpgzydjerp', // Cambia esto a tu contraseña
+    },
+  });
+
+  const mailOptions = {
+    from: 'krisnaspiral@gmail.com', // Cambia esto a tu dirección de correo
+    to: 'nicoechiburu@gmail.com', // Cambia esto al correo del destinatario
+    subject: 'Nuevo formulario de contacto',
+    html: `
+      <p>Nombre: ${name}</p>
+      <p>Email: ${email}</p>
+      <p>Telefono: ${telefono}</p>
+      <p>Destino: ${destino}</p>
+      <p>Tipo de boda: ${boda}</p>
+      <p>Invitados: ${guest}</p>
+      <p>Presupuesto: ${presupuesto}</p>
+    `,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error al enviar el correo:', error);
+      res.status(500).send('Error al enviar el correo');
+    } else {
+      console.log('Correo enviado:', info.response);
+      res.status(200).send('Correo enviado exitosamente');
+    }
+  });
 });
