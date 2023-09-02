@@ -36,7 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // Rutas de la app
-app.use('/', routes());
+app.use('/api', routes());
 
 // carpeta publica
 app.use(express.static('uploads'));
