@@ -14,7 +14,7 @@ const sendEmail = async (req, res) => {
 
     const mailOptions = {
         from: 'nechiburu@viajestravelero.com',
-        to: 'nicoechiburu@gmail.com',
+        to: 'weddings@viajestravelero.com',
         subject: 'Nueva cotizacion de boda',
         text: `Nueva solicitud:
         Nombre: ${name}, 
